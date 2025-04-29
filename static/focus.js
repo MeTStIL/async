@@ -6,7 +6,7 @@ const API = {
 };
 
 async function run() {
-
+//### ╰( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ
     try {
         const orgOgrns = await sendRequest(API.organizationList);
         const ogrns = orgOgrns.join(",");
