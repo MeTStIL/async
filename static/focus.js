@@ -29,6 +29,14 @@ async function sendRequest(url) {
         return response.json();
     }
 }
+/*   '''
+         .∧＿∧
+         ( ･ω･｡)つ━☆・*。
+         ⊂  ノ    ・゜+.
+         しーＪ   °。+ *´¨)
+                 .· ´¸.·*´¨)
+                 (¸.·´ (¸.·'* ☆  <YOUR CODE>
+     '''*/
 
 function reqsToMap(requisites) {
     return requisites.reduce((acc, item) => {
