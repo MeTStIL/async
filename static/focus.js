@@ -7,26 +7,34 @@ const API = {
 
 async function run() {
 
-    const orgOgrns = await sendRequest(API.organizationList);
-    const ogrns = orgOgrns.join(",");
+    try {
+        const orgOgrns = await sendRequest(API.organizationList);
+        const ogrns = orgOgrns.join(",");
 
-    const requisites = await sendRequest(`${API.orgReqs}?ogrn=${ogrns}`);
-    const orgsMap = reqsToMap(requisites);
+        const requisites = await sendRequest(`${API.orgReqs}?ogrn=${ogrns}`);
+        const orgsMap = reqsToMap(requisites);
 
-    const analytics = await sendRequest(`${API.analytics}?ogrn=${ogrns}`);
-    addInOrgsMap(orgsMap, analytics, "analytics");
+        const analytics = await sendRequest(`${API.analytics}?ogrn=${ogrns}`);
+        addInOrgsMap(orgsMap, analytics, "analytics");
 
-    const buh = await sendRequest(`${API.buhForms}?ogrn=${ogrns}`);
-    addInOrgsMap(orgsMap, buh, "buhForms");
-    render(orgsMap, orgOgrns);
+        const buh = await sendRequest(`${API.buhForms}?ogrn=${ogrns}`);
+        addInOrgsMap(orgsMap, buh, "buhForms");
+        render(orgsMap, orgOgrns);
+    } catch (err) {
+        alert(err);
+    }
+
 }
 
 run();
 
 async function sendRequest(url) {
     const response = await fetch(url);
+    console.log(response);
     if (response.status === 200) {
         return response.json();
+    } else if (response.ok !== true) {
+        throw new Error(`Код: ${response.status}\nCтатус: ${response.statusText}`);
     }
 }
 /*   '''
@@ -50,7 +58,7 @@ function addInOrgsMap(orgsMap, additionalInfo, key) {
         orgsMap[item.ogrn][key] = item[key];
     }
 }
-
+//### ╰( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ
 function render(organizationsInfo, organizationsOrder) {
     const table = document.getElementById("organizations");
     table.classList.remove("hide");
@@ -62,7 +70,7 @@ function render(organizationsInfo, organizationsOrder) {
         renderOrganization(organizationsInfo[item], template, container);
     });
 }
-
+//### ╰( ͡° ͜ʖ ͡° )つ──☆*:・ﾟ
 function renderOrganization(orgInfo, template, container) {
     const clone = document.importNode(template.content, true);
     const name = clone.querySelector(".name");
